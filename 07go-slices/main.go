@@ -32,11 +32,13 @@ func main() {
 	names = append(names, "fady", "magy", "roshdy", "samy", "injy")
 	fmt.Println(names)
 
-	names_v1 = append(names[:3]) // get the 0th, 1st, and 2nd and don't take the 3rd
+	names_v1 = append(names_v1, names[:3]...) // get the 0th, 1st, and 2nd and don't take the 3rd
 	fmt.Println(names_v1)
 
-	names_v2 = append(names[1:3]) // ignore the 0th and go for 1st and 2nd and stop and don't take the 3rd
+	names_v2 = append(names_v2, names[1:3]...) // ignore the 0th and go for 1st and 2nd and stop and don't take the 3rd
 	fmt.Println(names_v2)
+
+	fmt.Println(names)
 
 	// TODO => how to remove item by its index
 	items := []int{}
