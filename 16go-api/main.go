@@ -91,5 +91,34 @@ func CreateCourse(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
+// TODO => controller action method to update an existing course
+func UpdateCourseById(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Update Course action method is called")
+
+	// set the response header
+	w.Header().Set("Content-Type", "application/json")
+
+	// handle the request body
+	if r.Body == nil {
+		json.NewEncoder(w).Encode("Request body can't be empty")
+	}
+
+	// grap the id from the request
+	params := mux.Vars(r)
+
+	for idx, course := range Courses {
+		if course.CourseId == params["id"] {
+			// Courses[idx] = UpdatedCourse
+			Courses = append(Courses[:idx], Courses[idx+1:]...)
+			_ = json.NewDecoder(r.Body).Decode(&course)
+			course.CourseId = params["id"]
+			Courses = append(Courses, course)
+			// return the response
+			json.NewEncoder(w).Encode(course)
+			return
+		}
+	}
+}
+
 func main() {
 }
