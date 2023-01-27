@@ -3,9 +3,9 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"math/rand"
 	"net/http"
-	"rand"
 	"strconv"
 	"time"
 
@@ -27,7 +27,7 @@ func (course Course) IsEmpty() bool {
 
 // TODO => model for AUTHOR entity [file]
 type Author struct {
-	FullName string `json:"fillname"`
+	FullName string `json:"fullname"`
 	Website  string `json:"website"`
 }
 
@@ -135,4 +135,36 @@ func DeleteCourse(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
+	// TODO => data seeding
+	Courses = append(Courses, Course{
+		CourseId:    "1",
+		CourseName:  "Nuxtjs master class",
+		CoursePrice: 299,
+		CourseAuthor: &Author{
+			FullName: "fady gamil",
+			Website:  "frontend_masters.com",
+		},
+	})
+	Courses = append(Courses, Course{
+		CourseId:    "2",
+		CourseName:  "MERN Stack Step By Step",
+		CoursePrice: 560,
+		CourseAuthor: &Author{
+			FullName: "magy magdy",
+			Website:  "Udemy.com",
+		},
+	})
+
+	// TODO => define the router
+	r := mux.NewRouter()
+
+	// TODO => handle routes
+	r.HandleFunc("/courses", GetAllCourses).Methods("GET")
+	r.HandleFunc("/courses/{id}", GetCourseById).Methods("GET")
+	r.HandleFunc("/courses", CreateCourse).Methods("POST")
+	r.HandleFunc("/courses/{id}", UpdateCourseById).Methods("PUT")
+	r.HandleFunc("/courses/{id}", DeleteCourse).Methods("DELETE")
+
+	// TODO => listen to requests on specific port
+	log.Fatal(http.ListenAndServe(":4000", r))
 }
