@@ -120,5 +120,19 @@ func UpdateCourseById(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+// TODO => controller action method to delete an existing course
+func DeleteCourse(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("Delete Course action method is called")
+	// grap the id
+	params := mux.Vars(r)
+	for idx, course := range Courses {
+		if course.CourseId == params["id"] {
+			Courses = append(Courses[:idx], Courses[idx+1:]...)
+			json.NewEncoder(w).Encode(course)
+			return
+		}
+	}
+}
+
 func main() {
 }
